@@ -1,5 +1,5 @@
 name: file-server-gateway
 namespace: biomind
 version: v1
-httpPort: 8080
+httpPort: 8091
 grpcPort: 0
