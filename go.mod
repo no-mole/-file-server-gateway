@@ -8,9 +8,9 @@ require (
 	go.etcd.io/etcd/client/v3 v3.5.0
 	go.uber.org/automaxprocs v1.4.0
 	google.golang.org/grpc v1.41.0
-	smart.gitlab.biomind.com.cn/intelligent-system/biogo v0.0.0-20210927112831-79dac2973654
-	smart.gitlab.biomind.com.cn/intelligent-system/enum v0.0.0-20211008120858-d753fd721800
-	smart.gitlab.biomind.com.cn/intelligent-system/protos v0.0.0-20211008095122-8384d5ef26b2
+	smart.gitlab.biomind.com.cn/intelligent-system/biogo v0.0.0-20211013065145-db2d324ab238
+	smart.gitlab.biomind.com.cn/intelligent-system/enum v0.0.0-20211013064508-092ac50d759c
+	smart.gitlab.biomind.com.cn/intelligent-system/protos v0.0.0-20211013070930-1acbb36648b6
 )
 
 require (
@@ -48,11 +48,4 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
-)
-
-replace (
-	smart.gitlab.biomind.com.cn/intelligent-system/biogo v0.0.0-20210927112831-79dac2973654 => ../biogo
-	smart.gitlab.biomind.com.cn/intelligent-system/enum v0.0.0-20211008120858-d753fd721800 => ../enum
-	smart.gitlab.biomind.com.cn/intelligent-system/protos v0.0.0-20211008095122-8384d5ef26b2 => ../protos
-
 )
