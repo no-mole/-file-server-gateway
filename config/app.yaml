@@ -2,4 +2,4 @@ name: file-server-gateway
 namespace: biomind
 version: v1
 httpPort: 8091
-grpcPort: 0
+grpcPort: 8092
