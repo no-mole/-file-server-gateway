@@ -17,3 +17,6 @@ vendor:
 
 docker:
 	sh ./docker_build.sh $(tag)
+
+run:
+	sh ./deploy.sh $(tag)
