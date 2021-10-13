@@ -1,8 +1,8 @@
 stages:
 #  - prepare
   - test
-  - build
-#  - package
+#  - build
+  - package
   - deploy
 
 go-test:
