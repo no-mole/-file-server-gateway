@@ -77,7 +77,6 @@ func GetNodeConn() (Pool, error) {
 	}
 	index := (current + 1) % len(nodes)
 	node := nodes[index]
-	fmt.Println(">>>>", node.NodeName)
 	current++
 	pool, err := getSpeifiedConn(node.NodeName)
 	if err != nil {
