@@ -1,6 +1,7 @@
 package file
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -65,8 +66,6 @@ func fileOutput(ctx *gin.Context, filePath string) {
 	}
 	defer file.Close()
 
-
-
 	_, err = io.Copy(ctx.Writer, file)
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
@@ -104,7 +103,7 @@ func fileOutputFromNode(ctx *gin.Context, bucket, fileName string) {
 		return
 	}
 
-	_, err = io.Copy(ctx.Writer, file)
+	_, err = io.Copy(ctx.Writer, bytes.NewReader(resp.Chunk.Content))
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
 		return
