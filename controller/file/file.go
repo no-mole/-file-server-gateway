@@ -46,7 +46,7 @@ func Files(ctx *gin.Context) {
 	ctx.Writer.Header().Add("Content-type", "application/octet-stream")
 	ctx.Writer.Header().Add("e_tage", fileMetadata.ETage)
 	ctx.Writer.Header().Add("header_custom", fileMetadata.Header)
-	ctx.Writer.Header().Add("file_size", string(fileMetadata.FileSize))
+	ctx.Writer.Header().Add("file_size", fmt.Sprintf("%d", fileMetadata.FileSize))
 	ctx.Writer.Header().Add("file_extension", fileMetadata.FileExtension)
 
 	path := cache.Get(path.Join(urlPath.Bucket, urlPath.FileName))
