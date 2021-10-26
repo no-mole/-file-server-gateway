@@ -33,7 +33,7 @@ func (s *Service) SingleUpload(ctx context.Context, in *pb.UploadInfo) (ret *pb.
 	}
 	client := pb.NewFileServerServiceClient(conn.Conn())
 	defer pool.Restore(conn)
-	return client.SingleUpload(ctx, in, )
+	return client.SingleUpload(ctx, in)
 }
 
 func (s *Service) ChunkUpload(stream pb.FileServerService_ChunkUploadServer) error {
