@@ -1,14 +1,20 @@
 package file
 
 import (
+	"context"
+	"encoding/json"
+	"errors"
 	"file-server-gateway/lru"
+	"file-server-gateway/model"
 	"file-server-gateway/service/dispense"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
 	"net/http"
 	"os"
 	"path"
 	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/output"
+	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/redis"
 	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/utils"
 	"smart.gitlab.biomind.com.cn/intelligent-system/enum"
 	pb "smart.gitlab.biomind.com.cn/intelligent-system/protos/file_server"
@@ -32,6 +38,17 @@ func Files(ctx *gin.Context) {
 		return
 	}
 
+	fileMetadata, err := getFileMetadataFromFile(ctx, urlPath.Bucket, urlPath.FileName)
+	if err != nil {
+		ctx.Writer.WriteHeader(http.StatusNotFound)
+		return
+	}
+	ctx.Writer.Header().Add("Content-type", "application/octet-stream")
+	ctx.Writer.Header().Add("e_tage", fileMetadata.ETage)
+	ctx.Writer.Header().Add("header_custom", fileMetadata.Header)
+	ctx.Writer.Header().Add("file_size", string(fileMetadata.FileSize))
+	ctx.Writer.Header().Add("file_extension", fileMetadata.FileExtension)
+
 	path := cache.Get(path.Join(urlPath.Bucket, urlPath.FileName))
 	if path != "" {
 		fileOutput(ctx, path.(string))
@@ -47,7 +64,9 @@ func fileOutput(ctx *gin.Context, filePath string) {
 		return
 	}
 	defer file.Close()
-	ctx.Writer.Header().Add("Content-type", "application/octet-stream")
+
+
+
 	_, err = io.Copy(ctx.Writer, file)
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
@@ -78,11 +97,19 @@ func fileOutputFromNode(ctx *gin.Context, bucket, fileName string) {
 		return
 	}
 	defer file.Close()
+
 	_, err = file.Write(resp.Chunk.Content)
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
 		return
 	}
+
+	_, err = io.Copy(ctx.Writer, file)
+	if err != nil {
+		ctx.Writer.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	cache.Put(path.Join(bucket, fileName),path.Join(dirPath, fileName))
 }
 
@@ -95,4 +122,22 @@ func exists(path string) bool {
 		return false
 	}
 	return true
+}
+
+func getFileMetadataFromFile(ctx context.Context, bucket, fileName string) (*pb.UploadFileInfo, error) {
+	redis, exist := redis.Client.GetClient(model.RedisEngine)
+	if !exist {
+		return nil, errors.New("redis not match")
+	}
+	key := fmt.Sprintf("%s/%s", bucket, fileName)
+	body, err := redis.Get(ctx, key).Bytes()
+	if err != nil {
+		return nil, err
+	}
+	fileMetadata := new(pb.UploadFileInfo)
+	err = json.Unmarshal(body, &fileMetadata)
+	if err != nil {
+		return nil, err
+	}
+	return fileMetadata, nil
 }

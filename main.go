@@ -19,6 +19,7 @@ func main() {
 	biogo.AddHook(
 		config.Init, //初始化配置
 		bootstrap.InitLogger,
+		bootstrap.InitRedis,
 		bootstrap.WatchConn,
 		bootstrap.InitRouter(app.HttpEngine), //初始化http router
 		bootstrap.InitGrpcServer, //初始化grpc server

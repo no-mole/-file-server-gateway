@@ -10,7 +10,7 @@ require (
 	google.golang.org/grpc v1.41.0
 	smart.gitlab.biomind.com.cn/intelligent-system/biogo v0.0.0-20211013065145-db2d324ab238
 	smart.gitlab.biomind.com.cn/intelligent-system/enum v0.0.0-20211013064508-092ac50d759c
-	smart.gitlab.biomind.com.cn/intelligent-system/protos v0.0.0-20211013070930-1acbb36648b6
+	smart.gitlab.biomind.com.cn/intelligent-system/protos v0.0.0-20211026091546-034d808d6463
 )
 
 require (

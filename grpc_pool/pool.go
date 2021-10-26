@@ -3,7 +3,6 @@ package grpc_pool
 import (
 	"context"
 	"errors"
-	"fmt"
 	"sync"
 	"time"
 
@@ -75,7 +74,6 @@ func NewPool(builder Builder, options ...Option) (Pool, error) {
 		closed:    make(chan bool),
 	}
 	pool.toRecycle[conn.id] = time.Now()
-	fmt.Println(len(pool.pool.values))
 	go pool.Hold()
 	return pool, nil
 }
@@ -104,7 +102,6 @@ func (p *pool) Restore(c Conn) {
 }
 
 func (p *pool) Close() {
-	fmt.Println("被调了")
 	p.cancel()
 	p.ticker.Stop()
 

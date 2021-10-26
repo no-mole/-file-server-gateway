@@ -11,7 +11,7 @@ import (
 )
 
 var redisNames = []string{
-	model.RedisEngineBar,
+	model.RedisEngine,
 }
 
 func InitRedis(ctx context.Context) error {

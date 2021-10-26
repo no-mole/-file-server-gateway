@@ -1,8 +1,8 @@
 package model
 
 const (
-	MysqlEngineBar = "mysql"
-	RedisEngineBar = "redis"
+	MysqlEngine = "mysql"
+	RedisEngine = "redis"
 
 	FileServerNodePrefix = "file_server_node"
 	RootDir              = "data"
