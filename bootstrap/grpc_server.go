@@ -3,6 +3,8 @@ package bootstrap
 import (
 	"context"
 	"file-server-gateway/service/dispense"
+	"google.golang.org/grpc"
+	"math"
 
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/app"
@@ -12,6 +14,7 @@ import (
 
 func InitGrpcServer(_ context.Context) error {
 	s := app.NewGrpcServer(
+		grpc.MaxRecvMsgSize(math.MaxInt32),
 		grpc_middleware.WithUnaryServerChain(
 			middleware.TracingServerInterceptor(),
 		),

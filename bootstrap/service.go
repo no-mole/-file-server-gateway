@@ -6,6 +6,7 @@ import (
 	pool "file-server-gateway/grpc_pool"
 	"file-server-gateway/model"
 	"fmt"
+	"math"
 	"time"
 
 	fs "smart.gitlab.biomind.com.cn/intelligent-system/biogo/file_server"
@@ -77,6 +78,7 @@ func NodeDial(ctx context.Context, target string, opts ...grpc.DialOption) (*grp
 	StreamRetryInterceptor := grpc_retry.StreamClientInterceptor(retryOps...)
 	opts = append([]grpc.DialOption{
 		grpc.WithInsecure(),
+		grpc.WithDefaultCallOptions(grpc.MaxCallSendMsgSize(math.MaxInt32)),
 		grpc.WithKeepaliveParams(keepalive.ClientParameters{
 			Time:                grpc_pool.KeepAliveTime,
 			Timeout:             grpc_pool.KeepAliveTimeout,
