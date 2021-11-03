@@ -9,7 +9,7 @@ require (
 	go.uber.org/automaxprocs v1.4.0
 	google.golang.org/grpc v1.41.0
 	smart.gitlab.biomind.com.cn/intelligent-system/biogo v0.0.0-20211013065145-db2d324ab238
-	smart.gitlab.biomind.com.cn/intelligent-system/enum v0.0.0-20211013064508-092ac50d759c
+	smart.gitlab.biomind.com.cn/intelligent-system/enum v0.0.0-20211103024024-630355813b75
 	smart.gitlab.biomind.com.cn/intelligent-system/protos v0.0.0-20211026091546-034d808d6463
 )
 

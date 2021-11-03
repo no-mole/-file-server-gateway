@@ -18,6 +18,8 @@ import (
 	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/redis"
 	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/utils"
 	"smart.gitlab.biomind.com.cn/intelligent-system/enum"
+	"smart.gitlab.biomind.com.cn/intelligent-system/enum/file_server"
+
 	pb "smart.gitlab.biomind.com.cn/intelligent-system/protos/file_server"
 )
 
@@ -42,6 +44,7 @@ func Files(ctx *gin.Context) {
 	fileMetadata, err := getFileMetadataFromFile(ctx, urlPath.Bucket, urlPath.FileName)
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
+		output.Json(ctx, file_server.ErrorGetFileMetadata, err.Error())
 		return
 	}
 	ctx.Writer.Header().Add("Content-type", "application/octet-stream")
@@ -62,6 +65,7 @@ func fileOutput(ctx *gin.Context, filePath string) {
 	file, err := os.Open(filePath)
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
+		output.Json(ctx, file_server.ErrorFileOpen, err.Error())
 		return
 	}
 	defer file.Close()
@@ -69,6 +73,7 @@ func fileOutput(ctx *gin.Context, filePath string) {
 	_, err = io.Copy(ctx.Writer, file)
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
+		output.Json(ctx, file_server.ErrorFileRead, err.Error())
 		return
 	}
 }
@@ -83,6 +88,7 @@ func fileOutputFromNode(ctx *gin.Context, bucket, fileName string) {
 	resp, err := svr.Download(ctx,download)
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
+		output.Json(ctx, file_server.ErrorDownloadFile, err.Error())
 		return
 	}
 	dirPath := path.Join(utils.GetCurrentAbPath(), "data", bucket)
@@ -93,6 +99,7 @@ func fileOutputFromNode(ctx *gin.Context, bucket, fileName string) {
 	file, err := os.Create(path.Join(dirPath, fileName))
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
+		output.Json(ctx, file_server.ErrorCreateFile, err.Error())
 		return
 	}
 	defer file.Close()
@@ -100,12 +107,14 @@ func fileOutputFromNode(ctx *gin.Context, bucket, fileName string) {
 	_, err = file.Write(resp.Chunk.Content)
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
+		output.Json(ctx, file_server.ErrorWriteFile, err.Error())
 		return
 	}
 
 	_, err = io.Copy(ctx.Writer, bytes.NewReader(resp.Chunk.Content))
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
+		output.Json(ctx, file_server.ErrorFileRead, err.Error())
 		return
 	}
 
