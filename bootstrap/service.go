@@ -79,6 +79,7 @@ func NodeDial(ctx context.Context, target string, opts ...grpc.DialOption) (*grp
 	opts = append([]grpc.DialOption{
 		grpc.WithInsecure(),
 		grpc.WithDefaultCallOptions(grpc.MaxCallSendMsgSize(math.MaxInt32)),
+		grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(math.MaxInt32)),
 		grpc.WithKeepaliveParams(keepalive.ClientParameters{
 			Time:                grpc_pool.KeepAliveTime,
 			Timeout:             grpc_pool.KeepAliveTimeout,
