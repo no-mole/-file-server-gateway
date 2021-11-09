@@ -39,7 +39,7 @@ func WatchConn(ctx context.Context) (err error) {
 		pool.ConnMap[kv.Key] = p
 		pool.NodeMap[s.NodeName] = s
 	}
-	pool.LoadLeastNode(pool.NodeMap)
+	_ = pool.LoadLeastNode(ctx, pool.NodeMap)
 
 	config.GetClient().WatchWithPrefix(ctx, fileNodes, func(item *center.Item) {
 		str := item.GetValue()
@@ -64,7 +64,7 @@ func WatchConn(ctx context.Context) (err error) {
 			pool.ConnMap[item.Key] = p
 			pool.NodeMap[s.NodeName] = s
 		}
-		pool.LoadLeastNode(pool.NodeMap)
+		_ = pool.LoadLeastNode(ctx, pool.NodeMap)
 	})
 	return
 }

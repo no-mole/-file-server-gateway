@@ -1,9 +1,11 @@
 package grpc_pool
 
 import (
+	"context"
 	"errors"
 	"file-server-gateway/model"
 	"fmt"
+	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/logger"
 	"sort"
 
 	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/config"
@@ -22,14 +24,16 @@ func init() {
 	NodeMap = make(map[string]*fs.ServerNode)
 }
 
-func LoadLeastNode(m map[string]*fs.ServerNode) (err error) {
+func LoadLeastNode(ctx context.Context, m map[string]*fs.ServerNode) (err error) {
 	nodes := getNodes(m)
 	if len(nodes) == 0 {
+		logger.Error(ctx, "LoadLeastNode", errors.New("server node null"))
 		return errors.New("server node null")
 	}
 
 	pool, err := getSpeifiedConn(nodes[0].NodeName)
 	if err != nil {
+		logger.Error(ctx, "LoadLeastNode", err, logger.WithField("node_name",nodes[0].NodeName))
 		return
 	}
 	leastNodePool = pool

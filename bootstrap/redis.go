@@ -25,7 +25,7 @@ func InitRedis(ctx context.Context) error {
 		redis.Init(redisName, conf.GetValue())
 		// 监听修改
 		configCenterClient.Watch(ctx, conf, func(item *center.Item) {
-			redis.Init(item.Key, item.GetValue())
+			redis.Init(redisName, item.GetValue())
 		})
 	}
 
