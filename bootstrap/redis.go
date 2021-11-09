@@ -20,12 +20,18 @@ func InitRedis(ctx context.Context) error {
 	for _, redisName := range redisNames {
 		conf, err := configCenterClient.Get(ctx, redisName)
 		if err != nil {
-			return err
+			panic(err)
 		}
-		redis.Init(redisName, conf.GetValue())
+		err = redis.Init(redisName, conf.GetValue())
+		if err != nil {
+			panic(err)
+		}
 		// 监听修改
 		configCenterClient.Watch(ctx, conf, func(item *center.Item) {
-			redis.Init(redisName, item.GetValue())
+			err = redis.Init(conf.Key, item.GetValue())
+			if err != nil {
+				panic(err)
+			}
 		})
 	}
 
