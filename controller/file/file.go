@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"file-server-gateway/lru"
 	"file-server-gateway/model"
 	"file-server-gateway/service/dispense"
 	"fmt"
@@ -21,12 +20,6 @@ import (
 	"smart.gitlab.biomind.com.cn/intelligent-system/enum/file_server"
 	pb "smart.gitlab.biomind.com.cn/intelligent-system/protos/file_server"
 )
-
-var cache lru.Cache
-
-func init(){
-	cache = lru.Constructor(100)
-}
 
 type UrlPath struct {
 	Bucket string `uri:"bucket"`
@@ -56,11 +49,12 @@ func Files(ctx *gin.Context) {
 	ctx.Writer.Header().Add("file_size", fmt.Sprintf("%d", fileMetadata.FileSize))
 	ctx.Writer.Header().Add("file_extension", fileMetadata.FileExtension)
 
-	//path := cache.Get(path.Join(urlPath.Bucket, urlPath.FileName))
-	//if path != "" {
-	//	fileOutput(ctx, path.(string))
-	//	return
-	//}
+	filePath := path.Join(utils.GetCurrentAbPath(), "data", urlPath.Bucket, urlPath.FileName)
+	if exists(filePath) {
+		fileOutput(ctx, filePath)
+		return
+	}
+
 	fileOutputFromNode(ctx, urlPath.Bucket, urlPath.FileName)
 }
 
@@ -96,7 +90,7 @@ func fileOutputFromNode(ctx *gin.Context, bucket, fileName string) {
 	}
 	dirPath := path.Join(utils.GetCurrentAbPath(), "data", bucket)
 	if !exists(dirPath) {
-		os.MkdirAll(dirPath, os.ModePerm)
+		_ = os.MkdirAll(dirPath, os.ModePerm)
 	}
 
 	file, err := os.Create(path.Join(dirPath, fileName))
@@ -120,8 +114,6 @@ func fileOutputFromNode(ctx *gin.Context, bucket, fileName string) {
 		output.Json(ctx, file_server.ErrorFileRead, err.Error())
 		return
 	}
-
-	cache.Put(path.Join(bucket, fileName),path.Join(dirPath, fileName))
 }
 
 func exists(path string) bool {
