@@ -56,11 +56,11 @@ func Files(ctx *gin.Context) {
 	ctx.Writer.Header().Add("file_size", fmt.Sprintf("%d", fileMetadata.FileSize))
 	ctx.Writer.Header().Add("file_extension", fileMetadata.FileExtension)
 
-	path := cache.Get(path.Join(urlPath.Bucket, urlPath.FileName))
-	if path != "" {
-		fileOutput(ctx, path.(string))
-		return
-	}
+	//path := cache.Get(path.Join(urlPath.Bucket, urlPath.FileName))
+	//if path != "" {
+	//	fileOutput(ctx, path.(string))
+	//	return
+	//}
 	fileOutputFromNode(ctx, urlPath.Bucket, urlPath.FileName)
 }
 

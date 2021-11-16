@@ -2,6 +2,7 @@ package lru
 
 import (
 	"container/list"
+	"sync"
 )
 
 type Cache interface {
@@ -16,6 +17,7 @@ type LRUCache struct {
 	m        map[string]*Node
 	l        *list.List
 	capacity int
+	mu      sync.Mutex
 }
 
 type Node struct {
