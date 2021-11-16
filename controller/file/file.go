@@ -19,7 +19,6 @@ import (
 	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/utils"
 	"smart.gitlab.biomind.com.cn/intelligent-system/enum"
 	"smart.gitlab.biomind.com.cn/intelligent-system/enum/file_server"
-
 	pb "smart.gitlab.biomind.com.cn/intelligent-system/protos/file_server"
 )
 
@@ -47,7 +46,11 @@ func Files(ctx *gin.Context) {
 		output.Json(ctx, file_server.ErrorGetFileMetadata, err.Error())
 		return
 	}
-	ctx.Writer.Header().Add("Content-type", "application/octet-stream")
+
+	if ctx.Request.Header.Get("Content-Type") == "" {
+		ctx.Writer.Header().Add("Content-type", "application/octet-stream")
+	}
+	ctx.Writer.Header().Add("Content-Type",ctx.Request.Header.Get("Content-Type"))
 	ctx.Writer.Header().Add("e_tage", fileMetadata.ETage)
 	ctx.Writer.Header().Add("header_custom", fileMetadata.Header)
 	ctx.Writer.Header().Add("file_size", fmt.Sprintf("%d", fileMetadata.FileSize))
