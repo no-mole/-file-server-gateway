@@ -8,11 +8,12 @@ import (
 	"file-server-gateway/model"
 	"file-server-gateway/service/dispense"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"io"
 	"net/http"
 	"os"
 	"path"
+
+	"github.com/gin-gonic/gin"
 	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/output"
 	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/redis"
 	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/utils"
@@ -22,13 +23,13 @@ import (
 )
 
 type UrlPath struct {
-	Bucket string `uri:"bucket"`
+	Bucket   string `uri:"bucket"`
 	FileName string `uri:"file_name"`
 }
 
 func Files(ctx *gin.Context) {
 	var urlPath *UrlPath
-	if err := ctx.ShouldBindUri(&urlPath);err != nil {
+	if err := ctx.ShouldBindUri(&urlPath); err != nil {
 		output.Json(ctx, enum.IllegalParam, err.Error())
 		return
 	}
@@ -42,8 +43,9 @@ func Files(ctx *gin.Context) {
 
 	if ctx.Request.Header.Get("Content-Type") == "" {
 		ctx.Writer.Header().Add("Content-type", "application/octet-stream")
+	} else {
+		ctx.Writer.Header().Add("Content-Type", ctx.Request.Header.Get("Content-Type"))
 	}
-	ctx.Writer.Header().Add("Content-Type",ctx.Request.Header.Get("Content-Type"))
 	ctx.Writer.Header().Add("e_tage", fileMetadata.ETage)
 	ctx.Writer.Header().Add("header_custom", fileMetadata.Header)
 	ctx.Writer.Header().Add("file_size", fmt.Sprintf("%d", fileMetadata.FileSize))
@@ -82,7 +84,7 @@ func fileOutputFromNode(ctx *gin.Context, bucket, fileName string) {
 		FileName: fileName,
 		Bucket:   bucket,
 	}
-	resp, err := svr.Download(ctx,download)
+	resp, err := svr.Download(ctx, download)
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
 		output.Json(ctx, file_server.ErrorDownloadFile, err.Error())
