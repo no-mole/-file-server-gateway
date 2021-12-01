@@ -22,7 +22,7 @@ func main() {
 		bootstrap.InitRedis,
 		bootstrap.WatchConn,
 		bootstrap.InitRouter(app.HttpEngine), //初始化http router
-		bootstrap.InitGrpcServer, //初始化grpc server
+		bootstrap.InitGrpcServer,             //初始化grpc server
 	)
 
 	if err := biogo.Start(); err != nil {
