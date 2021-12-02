@@ -1,0 +1,19 @@
+version: "3"
+services:
+  file-server-gateway:
+    image: smart.hub.biomind.com.cn/intelligent-system/file-server-gateway:v1.1.8
+    container_name: "file-server-gateway"
+    environment:
+      DEBUG: 1
+    ports:
+      - "8091:8091"
+      - "8092:8092"
+    volumes:
+      - "./data:/home/data"
+      - "./log:/home/log"
+      - "./prod:/home/config/prod"
+    networks:
+      - icdss
+networks:
+  icdss:
+    external: true
