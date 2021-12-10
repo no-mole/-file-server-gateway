@@ -1,4 +1,4 @@
 type: etcd
-endpoint: 10.10.214.109:18200
+endpoint: smart.hub.biomind.com.cn:8200
 username: root
 password: biomind@1024
