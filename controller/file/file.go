@@ -35,6 +35,8 @@ func Files(ctx *gin.Context) {
 		output.Json(ctx, enum.IllegalParam, nil)
 		return
 	}
+	ctx.Writer.WriteHeader(http.StatusOK)
+
 	p := &UrlPath{
 		Bucket:   strings.TrimLeft(strings.Join(paths[:len(paths)-1], "/"), "/"),
 		FileName: paths[len(paths)-1],
@@ -96,6 +98,7 @@ func fileOutputFromNode(ctx *gin.Context, bucket, fileName string) {
 		output.Json(ctx, file_server.ErrorDownloadFile, err.Error())
 		return
 	}
+
 	dirPath := path.Join(utils.GetCurrentAbPath(), "data", bucket)
 	if !exists(dirPath) {
 		_ = os.MkdirAll(dirPath, os.ModePerm)
