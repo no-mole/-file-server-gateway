@@ -12,10 +12,9 @@ import (
 func InitRouter(router *gin.Engine) app.HookFunc {
 	return func(ctx context.Context) error {
 		dataGrpoup := router.Group("")
-		dataGrpoup.GET("/:bucket/:file_name", gzip.Gzip(gzip.DefaultCompression), file.Files)
 		dataGrpoup.GET("/refreshAll", file.RefreshAll)
 		dataGrpoup.GET("/refresh/:bucket/:file_name", file.Refresh)
-
+		router.NoRoute(gzip.Gzip(gzip.DefaultCompression), file.Files)
 		return nil
 	}
 }

@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/output"
@@ -28,13 +29,18 @@ type UrlPath struct {
 }
 
 func Files(ctx *gin.Context) {
-	var urlPath *UrlPath
-	if err := ctx.ShouldBindUri(&urlPath); err != nil {
-		output.Json(ctx, enum.IllegalParam, err.Error())
+	uriPath := ctx.Request.URL.Path
+	paths := strings.Split(uriPath, "/")
+	if len(paths) < 2 {
+		output.Json(ctx, enum.IllegalParam, nil)
 		return
 	}
+	p := &UrlPath{
+		Bucket:   strings.TrimLeft(strings.Join(paths[:len(paths)-1], "/"), "/"),
+		FileName: paths[len(paths)-1],
+	}
 
-	fileMetadata, err := getFileMetadataFromFile(ctx, urlPath.Bucket, urlPath.FileName)
+	fileMetadata, err := getFileMetadataFromFile(ctx, p.Bucket, p.FileName)
 	if err != nil {
 		ctx.Writer.WriteHeader(http.StatusNotFound)
 		output.Json(ctx, file_server.ErrorGetFileMetadata, err.Error())
@@ -51,13 +57,13 @@ func Files(ctx *gin.Context) {
 	ctx.Writer.Header().Add("file_size", fmt.Sprintf("%d", fileMetadata.FileSize))
 	ctx.Writer.Header().Add("file_extension", fileMetadata.FileExtension)
 
-	filePath := path.Join(utils.GetCurrentAbPath(), "data", urlPath.Bucket, urlPath.FileName)
+	filePath := path.Join(utils.GetCurrentAbPath(), "data", p.Bucket, p.FileName)
 	if exists(filePath) {
 		fileOutput(ctx, filePath)
 		return
 	}
 
-	fileOutputFromNode(ctx, urlPath.Bucket, urlPath.FileName)
+	fileOutputFromNode(ctx, p.Bucket, p.FileName)
 }
 
 func fileOutput(ctx *gin.Context, filePath string) {
