@@ -2,3 +2,5 @@ vendor
 .idea
 .git
 .env
+log
+config/dev
