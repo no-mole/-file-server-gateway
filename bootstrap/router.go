@@ -21,6 +21,10 @@ func InitRouter(router *gin.Engine) app.HookFunc {
 
 		groupPdf := router.Group("/pdf")
 		groupPdf.Static("", path.Join(utils.GetCurrentAbPath(), "data/pdf"))
+
+		//todo 测试用的
+		router.NoRoute(gzip.Gzip(gzip.DefaultCompression), file.FilesTest)
+
 		return nil
 	}
 }

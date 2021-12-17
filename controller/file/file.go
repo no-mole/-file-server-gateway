@@ -155,3 +155,27 @@ func getFileMetadataFromFile(ctx context.Context, bucket, fileName string) (*pb.
 	}
 	return fileMetadata, nil
 }
+
+func FilesTest(ctx *gin.Context) {
+	uriPath := ctx.Request.URL.Path
+	paths := strings.Split(uriPath, "/")
+	if len(paths) < 2 {
+		output.Json(ctx, enum.IllegalParam, nil)
+		return
+	}
+	ctx.Writer.WriteHeader(http.StatusOK)
+
+	p := &UrlPath{
+		Bucket:   strings.TrimLeft(strings.Join(paths[:len(paths)-1], "/"), "/"),
+		FileName: paths[len(paths)-1],
+	}
+
+	if ctx.Request.Header.Get("Content-Type") == "" {
+		ctx.Writer.Header().Add("Content-type", "application/octet-stream")
+	} else {
+		ctx.Writer.Header().Add("Content-Type", ctx.Request.Header.Get("Content-Type"))
+	}
+
+	filePath := path.Join(utils.GetCurrentAbPath(), "data", p.Bucket, p.FileName)
+	fileOutput(ctx, filePath)
+}
