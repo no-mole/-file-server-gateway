@@ -42,13 +42,12 @@ func Files(ctx *gin.Context) {
 		FileName: paths[len(paths)-1],
 	}
 
-	//todo 测试用的
-	//fileMetadata, err := getFileMetadataFromFile(ctx, p.Bucket, p.FileName)
-	//if err != nil {
-	//	ctx.Writer.WriteHeader(http.StatusNotFound)
-	//	output.Json(ctx, file_server.ErrorGetFileMetadata, err.Error())
-	//	return
-	//}
+	fileMetadata, err := getFileMetadataFromFile(ctx, p.Bucket, p.FileName)
+	if err != nil {
+		ctx.Writer.WriteHeader(http.StatusNotFound)
+		output.Json(ctx, file_server.ErrorGetFileMetadata, err.Error())
+		return
+	}
 
 	if ctx.Request.Header.Get("Content-Type") == "" {
 		ctx.Writer.Header().Add("Content-type", "application/octet-stream")
@@ -56,11 +55,10 @@ func Files(ctx *gin.Context) {
 		ctx.Writer.Header().Add("Content-Type", ctx.Request.Header.Get("Content-Type"))
 	}
 
-	//todo 测试用的
-	//ctx.Writer.Header().Add("e_tage", fileMetadata.ETage)
-	//ctx.Writer.Header().Add("header_custom", fileMetadata.Header)
-	//ctx.Writer.Header().Add("file_size", fmt.Sprintf("%d", fileMetadata.FileSize))
-	//ctx.Writer.Header().Add("file_extension", fileMetadata.FileExtension)
+	ctx.Writer.Header().Add("e_tage", fileMetadata.ETage)
+	ctx.Writer.Header().Add("header_custom", fileMetadata.Header)
+	ctx.Writer.Header().Add("file_size", fmt.Sprintf("%d", fileMetadata.FileSize))
+	ctx.Writer.Header().Add("file_extension", fileMetadata.FileExtension)
 
 	filePath := path.Join(utils.GetCurrentAbPath(), "data", p.Bucket, p.FileName)
 	if exists(filePath) {
