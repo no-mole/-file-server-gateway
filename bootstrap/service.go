@@ -3,22 +3,23 @@ package bootstrap
 import (
 	"context"
 	"encoding/json"
-	pool "file-server-gateway/grpc_pool"
-	"file-server-gateway/model"
 	"fmt"
 	"math"
 	"time"
 
-	fs "smart.gitlab.biomind.com.cn/intelligent-system/biogo/file_server"
+	pool "smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/grpc_pool"
+	"smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/model"
 
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/grpc_pool"
+	fs "smart.gitlab.biomind.com.cn/infrastructure/biogo/file_server"
+
+	"smart.gitlab.biomind.com.cn/infrastructure/biogo/grpc_pool"
 
 	grpc_retry "github.com/grpc-ecosystem/go-grpc-middleware/retry"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/config"
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/config/center"
+	"smart.gitlab.biomind.com.cn/infrastructure/biogo/config"
+	"smart.gitlab.biomind.com.cn/infrastructure/biogo/config/center"
 )
 
 func WatchConn(ctx context.Context) (err error) {

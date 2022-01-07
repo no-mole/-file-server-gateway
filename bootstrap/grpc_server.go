@@ -2,13 +2,15 @@ package bootstrap
 
 import (
 	"context"
-	"file-server-gateway/service/dispense"
-	"google.golang.org/grpc"
 	"math"
 
+	"smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/service/dispense"
+
+	"google.golang.org/grpc"
+
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/app"
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/middleware"
+	"smart.gitlab.biomind.com.cn/infrastructure/biogo/app"
+	middleware "smart.gitlab.biomind.com.cn/infrastructure/middlewares"
 	fsPb "smart.gitlab.biomind.com.cn/intelligent-system/protos/file_server"
 )
 

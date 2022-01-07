@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/snowflake"
+	"smart.gitlab.biomind.com.cn/infrastructure/biogo/snowflake"
 )
 
 type Builder func() (*grpc.ClientConn, error)

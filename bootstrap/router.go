@@ -2,14 +2,15 @@ package bootstrap
 
 import (
 	"context"
-	"file-server-gateway/controller/file"
 	"path"
 
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/utils"
+	"smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/controller/file"
+
+	"smart.gitlab.biomind.com.cn/infrastructure/biogo/utils"
 
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/app"
+	"smart.gitlab.biomind.com.cn/infrastructure/biogo/app"
 )
 
 func InitRouter(router *gin.Engine) app.HookFunc {

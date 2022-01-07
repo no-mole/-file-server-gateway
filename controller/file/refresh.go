@@ -6,8 +6,8 @@ import (
 	"path"
 
 	"github.com/gin-gonic/gin"
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/output"
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/utils"
+	"smart.gitlab.biomind.com.cn/infrastructure/biogo/output"
+	"smart.gitlab.biomind.com.cn/infrastructure/biogo/utils"
 	"smart.gitlab.biomind.com.cn/intelligent-system/enum"
 	"smart.gitlab.biomind.com.cn/intelligent-system/enum/file_server"
 )

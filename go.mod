@@ -1,4 +1,4 @@
-module file-server-gateway
+module smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway
 
 go 1.17
 
@@ -9,10 +9,11 @@ require (
 	go.etcd.io/etcd/client/v3 v3.5.1
 	go.uber.org/automaxprocs v1.4.0
 	google.golang.org/grpc v1.41.0
-	smart.gitlab.biomind.com.cn/intelligent-system/biogo v0.9.7
-	smart.gitlab.biomind.com.cn/intelligent-system/enum v0.1.9
-	smart.gitlab.biomind.com.cn/intelligent-system/logger_center v0.1.3
-	smart.gitlab.biomind.com.cn/intelligent-system/protos v0.1.48
+	smart.gitlab.biomind.com.cn/infrastructure/biogo v1.0.0
+	smart.gitlab.biomind.com.cn/infrastructure/logger_center v0.1.4
+	smart.gitlab.biomind.com.cn/infrastructure/middlewares v0.0.0-20220106123147-5c132ae2b4f3
+	smart.gitlab.biomind.com.cn/intelligent-system/enum v0.1.14
+	smart.gitlab.biomind.com.cn/intelligent-system/protos v0.2.1
 )
 
 require (

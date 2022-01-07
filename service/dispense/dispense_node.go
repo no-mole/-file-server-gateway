@@ -3,14 +3,15 @@ package dispense
 import (
 	"context"
 	"errors"
-	"file-server-gateway/grpc_pool"
-	"file-server-gateway/model"
 	"fmt"
 	"io"
 
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/config"
+	"smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/grpc_pool"
+	"smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/model"
 
-	"smart.gitlab.biomind.com.cn/intelligent-system/biogo/registry"
+	"smart.gitlab.biomind.com.cn/infrastructure/biogo/config"
+
+	"smart.gitlab.biomind.com.cn/infrastructure/biogo/registry"
 	pb "smart.gitlab.biomind.com.cn/intelligent-system/protos/file_server"
 )
 
