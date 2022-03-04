@@ -24,6 +24,14 @@ import (
 	pb "smart.gitlab.biomind.com.cn/intelligent-system/protos/file_server"
 )
 
+var contentTypes = map[string]string{
+	".gif": "image/gif",
+	".png": "image/png",
+	".jpg": "image/jpeg",
+	".pdf": "application/pdf",
+	".xml": "text/xml",
+}
+
 type UrlPath struct {
 	Bucket   string `uri:"bucket"`
 	FileName string `uri:"file_name"`
@@ -50,12 +58,19 @@ func Files(ctx *gin.Context) {
 		return
 	}
 
-	if ctx.Request.Header.Get("Content-Type") == "" {
-		ctx.Writer.Header().Add("Content-type", "application/octet-stream")
-	} else {
-		ctx.Writer.Header().Add("Content-Type", ctx.Request.Header.Get("Content-Type"))
+	contentTypeValue := ""
+
+	if fileMetadata.Header != "" {
+		ss := strings.Split(fileMetadata.Header, ":")
+		if len(ss) > 0 {
+			contentTypeValue = ss[len(ss)-1]
+		}
+	}
+	if v, ok := contentTypes[fileMetadata.FileExtension]; ok && contentTypeValue == "" {
+		contentTypeValue = v
 	}
 
+	ctx.Writer.Header().Add("Content-Type", contentTypeValue)
 	ctx.Writer.Header().Add("e_tage", fileMetadata.ETage)
 	ctx.Writer.Header().Add("header_custom", fileMetadata.Header)
 	ctx.Writer.Header().Add("file_size", fmt.Sprintf("%d", fileMetadata.FileSize))
