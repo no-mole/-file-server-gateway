@@ -50,22 +50,22 @@ func Files(ctx *gin.Context) {
 		Bucket:   strings.TrimLeft(strings.Join(paths[:len(paths)-1], "/"), "/"),
 		FileName: paths[len(paths)-1],
 	}
-	//
-	//fileMetadata, err := getFileMetadataFromFile(ctx, p.Bucket, p.FileName)
-	//if err != nil {
-	//	ctx.Writer.WriteHeader(http.StatusNotFound)
-	//	output.Json(ctx, file_server.ErrorGetFileMetadata, err.Error())
-	//	return
-	//}
+
+	fileMetadata, err := getFileMetadataFromFile(ctx, p.Bucket, p.FileName)
+	if err != nil {
+		ctx.Writer.WriteHeader(http.StatusNotFound)
+		output.Json(ctx, file_server.ErrorGetFileMetadata, err.Error())
+		return
+	}
 
 	contentTypeValue := ""
 
-	//if fileMetadata.Header != "" {
-	//	ss := strings.Split(fileMetadata.Header, ":")
-	//	if len(ss) > 0 {
-	//		contentTypeValue = ss[len(ss)-1]
-	//	}
-	//}
+	if fileMetadata.Header != "" {
+		ss := strings.Split(fileMetadata.Header, ":")
+		if len(ss) > 0 {
+			contentTypeValue = ss[len(ss)-1]
+		}
+	}
 
 	ss := strings.Split(p.FileName, ".")
 
@@ -76,10 +76,10 @@ func Files(ctx *gin.Context) {
 	}
 
 	ctx.Writer.Header().Add("Content-Type", contentTypeValue)
-	//ctx.Writer.Header().Add("e_tage", fileMetadata.ETage)
-	//ctx.Writer.Header().Add("header_custom", fileMetadata.Header)
-	//ctx.Writer.Header().Add("file_size", fmt.Sprintf("%d", fileMetadata.FileSize))
-	//ctx.Writer.Header().Add("file_extension", fileMetadata.FileExtension)
+	ctx.Writer.Header().Add("e_tage", fileMetadata.ETage)
+	ctx.Writer.Header().Add("header_custom", fileMetadata.Header)
+	ctx.Writer.Header().Add("file_size", fmt.Sprintf("%d", fileMetadata.FileSize))
+	ctx.Writer.Header().Add("file_extension", fileMetadata.FileExtension)
 
 	filePath := path.Join(utils.GetCurrentAbPath(), "data", p.Bucket, p.FileName)
 	if exists(filePath) {
