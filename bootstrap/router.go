@@ -4,13 +4,13 @@ import (
 	"context"
 	"path"
 
-	"smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/controller/file"
+	"github.com/no-mole/file-server-gateway/controller/file"
 
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/utils"
+	"github.com/no-mole/neptune/utils"
 
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/app"
+	"github.com/no-mole/neptune/app"
 )
 
 func InitRouter(router *gin.Engine) app.HookFunc {

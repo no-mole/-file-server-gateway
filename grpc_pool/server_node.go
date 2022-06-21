@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"sort"
 
-	"smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/model"
+	"github.com/no-mole/file-server-gateway/model"
 
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/logger"
+	"github.com/no-mole/neptune/logger"
 
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/config"
-	fs "smart.gitlab.biomind.com.cn/infrastructure/biogo/file_server"
+	fs "github.com/no-mole/file-server/bootstrap"
+	"github.com/no-mole/neptune/config"
 )
 
 var (

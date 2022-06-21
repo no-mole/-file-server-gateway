@@ -3,8 +3,8 @@ package grpc_pool
 import (
 	"time"
 
+	"github.com/no-mole/neptune/snowflake"
 	"google.golang.org/grpc"
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/snowflake"
 )
 
 type Builder func() (*grpc.ClientConn, error)

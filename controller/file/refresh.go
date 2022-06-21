@@ -6,10 +6,10 @@ import (
 	"path"
 
 	"github.com/gin-gonic/gin"
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/output"
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/utils"
-	"smart.gitlab.biomind.com.cn/intelligent-system/enum"
-	"smart.gitlab.biomind.com.cn/intelligent-system/enum/file_server"
+	fileserver "github.com/no-mole/file-server-gateway/enum"
+	"github.com/no-mole/neptune/enum"
+	"github.com/no-mole/neptune/output"
+	"github.com/no-mole/neptune/utils"
 )
 
 func Refresh(ctx *gin.Context) {
@@ -21,7 +21,7 @@ func Refresh(ctx *gin.Context) {
 
 	err := os.RemoveAll(path.Join(utils.GetCurrentAbPath(), "data", urlPath.Bucket, urlPath.FileName))
 	if err != nil {
-		output.Json(ctx, file_server.ErrorRemoveFile, nil)
+		output.Json(ctx, fileserver.ErrorRemoveFile, nil)
 		return
 	}
 	output.Json(ctx, enum.Success, nil)
@@ -30,7 +30,7 @@ func Refresh(ctx *gin.Context) {
 func RefreshAll(ctx *gin.Context) {
 	dir, err := ioutil.ReadDir(path.Join(utils.GetCurrentAbPath(), "data"))
 	if err != nil {
-		output.Json(ctx, file_server.ErrorDirOpen, err.Error())
+		output.Json(ctx, fileserver.ErrorDirOpen, err.Error())
 		return
 	}
 	for _, d := range dir {

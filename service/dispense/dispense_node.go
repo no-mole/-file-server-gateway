@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"io"
 
-	"smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/grpc_pool"
-	"smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/model"
+	"github.com/no-mole/file-server-gateway/grpc_pool"
+	"github.com/no-mole/file-server-gateway/model"
 
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/config"
+	"github.com/no-mole/neptune/config"
 
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/registry"
-	pb "smart.gitlab.biomind.com.cn/intelligent-system/protos/file_server"
+	pb "github.com/no-mole/file-server/protos/file_server"
+	"github.com/no-mole/neptune/registry"
 )
 
 type Service struct {

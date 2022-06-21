@@ -3,11 +3,11 @@ package bootstrap
 import (
 	"context"
 
-	"smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/model"
+	"github.com/no-mole/file-server-gateway/model"
 
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/config"
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/config/center"
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/redis"
+	"github.com/no-mole/neptune/config"
+	"github.com/no-mole/neptune/config/center"
+	"github.com/no-mole/neptune/redis"
 )
 
 var redisNames = []string{

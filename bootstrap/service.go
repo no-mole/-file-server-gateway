@@ -7,19 +7,19 @@ import (
 	"math"
 	"time"
 
-	pool "smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/grpc_pool"
-	"smart.gitlab.biomind.com.cn/infrastructure/file-server-gateway/model"
+	pool "github.com/no-mole/file-server-gateway/grpc_pool"
+	"github.com/no-mole/file-server-gateway/model"
 
-	fs "smart.gitlab.biomind.com.cn/infrastructure/biogo/file_server"
+	fs "github.com/no-mole/file-server/bootstrap"
 
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/grpc_pool"
+	"github.com/no-mole/neptune/grpc_pool"
 
 	grpc_retry "github.com/grpc-ecosystem/go-grpc-middleware/retry"
+	"github.com/no-mole/neptune/config"
+	"github.com/no-mole/neptune/config/center"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/config"
-	"smart.gitlab.biomind.com.cn/infrastructure/biogo/config/center"
 )
 
 func WatchConn(ctx context.Context) (err error) {
